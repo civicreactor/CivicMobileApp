@@ -1,4 +1,3 @@
-
 # Ionic 2 Conference Application
 
 This is purely a demo of Ionic 2 with TypeScript. It is still in development.
@@ -195,6 +194,3 @@ ionic-conference-app/
 ├── tsconfig.json                       * Defines the root files and the compiler options
 ├── tslint.json                         * Defines the rules for the TypeScript linter
 ```
-=======
-# CivicMobileApp
-This will be the mobile first web presence for the Civic reactor group going forward.
