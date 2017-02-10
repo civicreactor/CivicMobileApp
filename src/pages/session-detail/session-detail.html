@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Session</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1>{{session.name}}</h1>
+
+  <h2>Speaker/s :</h2>
+  <h4 *ngFor="let speaker of session.speakers">
+    <button ion-item (click)="goToSpeakerDetail(speaker)">
+      <h3>{{speaker.name}}</h3>
+    </button>
+  </h4>
+
+  <p>
+    {{session.timeStart}} - {{session.timeEnd}}
+  </p>
+
+  <p>{{session.location}}</p>
+
+  <p>{{session.description}}</p>
+
+  <ion-item-sliding *ngFor="let session of session.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase" [hidden]="session.hide">
+
+    <button ion-item (click)="goToSessionDetail(session)">
+      <h3>{{session.name}}</h3>
+      <p>
+        {{session.timeStart}} &mdash;
+        {{session.timeEnd}}:
+        {{session.location}}
+      </p>
+    </button>
+
+    <ion-item-options>
+      <button ion-button color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
+        Favorite
+      </button>
+      <button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" *ngIf="segment === 'favorites'">
+        Remove
+      </button>
+    </ion-item-options>
+
+  </ion-item-sliding>
+</ion-content>

@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Project {{speaker.name}} - details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="project-detail">
+  <div text-center>
+    <img [src]="speaker.profilePic" [alt]="speaker.name"><br>
+
+    <button ion-button icon-only clear small color="twitter">
+      <ion-icon name="logo-twitter"></ion-icon>
+    </button>
+    <button ion-button icon-only clear small color="github">
+      <ion-icon name="logo-github"></ion-icon>
+    </button>
+    <button ion-button icon-only clear small color="instagram">
+      <ion-icon name="logo-instagram"></ion-icon>
+    </button>
+  </div>
+  <div text-center>
+    <h2>{{speaker.about}}</h2><br />
+    {{speaker.desc}}
+    <br /><br />
+    <a href="{{speaker.url}}">View it here!</a>
+  </div>
+</ion-content>
