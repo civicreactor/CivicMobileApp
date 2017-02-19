@@ -78,7 +78,6 @@ export class SchedulePage {
   }
 
   addFavorite(slidingItem: ItemSliding, sessionData) {
-
     if (this.user.hasFavorite(sessionData.name)) {
       // woops, they already favorited it! What shall we do!?
       // prompt them to remove it
