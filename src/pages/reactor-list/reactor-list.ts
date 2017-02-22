@@ -9,10 +9,10 @@ import { SpeakerDetailPage } from '../speaker-detail/speaker-detail';
 
 
 @Component({
-  selector: 'page-speaker-list',
-  templateUrl: 'speaker-list.html'
+  selector: 'page-reactor-list',
+  templateUrl: 'reactor-list.html'
 })
-export class SpeakerListPage {
+export class ReactorListPage {
   actionSheet: ActionSheet;
   speakers = [];
 

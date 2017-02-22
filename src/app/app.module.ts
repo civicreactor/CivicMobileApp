@@ -15,7 +15,7 @@ import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { SignupPage } from '../pages/signup/signup';
 import { SpeakerDetailPage } from '../pages/speaker-detail/speaker-detail';
-import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
+import { ReactorListPage } from '../pages/reactor-list/reactor-list';
 import { ProjectDetailPage } from '../pages/project-detail/project-detail';
 import { ProjectListPage } from '../pages/project-list/project-list';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -39,7 +39,7 @@ import { UserData } from '../providers/user-data';
     SessionDetailPage,
     SignupPage,
     SpeakerDetailPage,
-    SpeakerListPage,
+    ReactorListPage,
     ProjectDetailPage,
     ProjectListPage,
     TabsPage,
@@ -62,7 +62,7 @@ import { UserData } from '../providers/user-data';
     SessionDetailPage,
     SignupPage,
     SpeakerDetailPage,
-    SpeakerListPage,
+    ReactorListPage,
     ProjectDetailPage,
     ProjectListPage,
     TabsPage,
