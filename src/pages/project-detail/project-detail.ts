@@ -10,10 +10,10 @@ import { SessionDetailPage } from '../session-detail/session-detail';
   templateUrl: 'project-detail.html'
 })
 export class ProjectDetailPage {
-  speaker: any;
+  project: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.speaker = this.navParams.data;
+    this.project = this.navParams.data;
   }
 
   goToSessionDetail(session) {

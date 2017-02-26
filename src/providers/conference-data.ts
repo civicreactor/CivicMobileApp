@@ -140,7 +140,6 @@ export class ConferenceData {
     });
   }
 
-
   getProjects() {
     return this.load().map(data => {
       return data.projects.sort((a, b) => {
@@ -149,6 +148,65 @@ export class ConferenceData {
         return aName.localeCompare(bName);
       });
     });
+  }
+
+  getProjectLine(queryText = '', segment = 'all') {
+    return this.load().map(data => {
+      let projects = data.projects;
+      projects.shownProjects = 0;
+
+      queryText = queryText.toLowerCase().replace(/,|\.|-/g, ' ');
+      let queryWords = queryText.split(' ').filter(w => !!w.trim().length);
+
+      projects.forEach(project => {
+        project.hide = true;
+          // check if this project should show or not
+          this.filterProject(project, queryWords, segment);
+
+          if (!project.hide) {
+            // if this session is not hidden then this group should show
+            project.hide = false;
+            projects.shownProjects++;
+            console.log("projects >>" + projects.shownProjects)
+          }
+        });
+        return projects;
+      });
+    }
+  
+
+  filterProject(project, queryWords, segment) {
+    // console.log(project)
+    // console.log(queryWords)
+    // console.log(segment)
+    let matchesQueryText = false;
+    if (queryWords.length) {
+      // of any query word is in the session name than it passes the query test
+      queryWords.forEach(queryWord => {
+        if (project.name.toLowerCase().indexOf(queryWord) > -1) {
+          matchesQueryText = true;
+        }
+      });
+    } else {
+      // if there are no query words then this session passes the query test
+      matchesQueryText = true;
+    }
+
+    // if the segement is 'favorites', but session is not a user favorite
+    // then this session does not pass the segment test
+    let matchesSegment = false;
+    if (segment === 'favorites') {
+      if (this.user.hasFavorite(project.name)) {
+        console.log('this user has favorite project name: ' + project.name)
+        matchesSegment = true;
+      }
+    } else {
+      matchesSegment = true;
+    }
+
+    // all tests must be true if it should not be hidden
+    project.hide = !(matchesQueryText && matchesSegment);
+    console.log(project.hide)
   }
 
   getTracks() {
