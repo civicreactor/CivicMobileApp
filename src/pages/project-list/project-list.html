@@ -1,43 +1,70 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar no-border-bottom>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Projects</ion-title>
+
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateProject()">
+    <!--<ion-segment [(ngModel)]="segment">-->
+      <ion-segment-button value="all">
+        All - Projects
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Favorite  - Projects
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentFilter()">
+        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="updateProject()"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content class="outer-content reactor-list">
-  <ion-card *ngFor="let speaker of speakers" class="speaker-card">
-
+<ion-content class="outer-content project-list">
+  <ion-list [hidden]="shownProjects === 0"> 
+  <ion-card #cardProject *ngFor="let project of projects" class="speaker-card" [hidden]="project.hide">
     <ion-card-header>
-      <button ion-item detail-none (click)="goToSpeakerDetail(speaker)">
+      <button ion-item detail-none (click)="goToProjectDetail(project)">
         <ion-thumbnail item-left>
-          <img [src]="speaker.profilePic" alt="Project profile pic">
+          <img [src]="project.profilePic" alt="Project profile pic">
         </ion-thumbnail>
-          <h2>{{speaker.name}}</h2>
+          <h2>{{project.name}}</h2>
         <br />
-          <h4>{{speaker.tech}}</h4>
+          <h4>{{project.tech}}</h4>
       </button>
     </ion-card-header>
 
     <ion-card-content class="outer-content">
       <ion-list>
-        <button ion-item *ngFor="let session of speaker.sessions" (click)="goToSessionDetail(session)">
-          <h3>{{session.name}}</h3>
+        <button ion-item *ngFor="let project of project.sessions" (click)="goToSessionDetail(session)">
+          <h3>{{project.name}}</h3>
         </button>
 
-        <button ion-item (click)="goToSpeakerDetail(speaker)">
-          <h3>About {{speaker.name}}</h3>
+        <button ion-item (click)="goToProjectDetail(project)">
+          <h3>About {{project.name}}</h3>
         </button>
       </ion-list>
     </ion-card-content>
 
     <ion-row no-padding>
-      <ion-col>
-        <button ion-button clear small color="primary" icon-left (click)="goToSpeakerTwitter(speaker)">
-          <ion-icon name="logo-twitter"></ion-icon>
-          Tweet
+      <ion-col text-left>
+        <button ion-button clear small color="primary" icon-left (click)="addFavorite(cardProject, project)" *ngIf="segment === 'all'">
+          <ion-icon name='star'></ion-icon>
+          Favorite
+        </button>
+        <button ion-button clear small color="primary" icon-left (click)="removeFavorite(cardProject, project)" *ngIf="segment === 'favorites'">
+          <ion-icon name='star'></ion-icon>
+          Remove
         </button>
       </ion-col>
       <ion-col text-center>
@@ -55,4 +82,23 @@
     </ion-row>
 
   </ion-card>
+  </ion-list>
+  <ion-list-header [hidden]="shownProjects > 0">
+    No Sessions Found
+  </ion-list-header>
+
 </ion-content>
+
+
+
+
+
+<!--<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Projects</ion-title>
+  </ion-navbar>
+</ion-header>-->
+

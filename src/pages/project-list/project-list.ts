@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 
-import { ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
+import { AlertController, ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
 import { InAppBrowser } from 'ionic-native';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { ProjectDetailPage } from '../project-detail/project-detail';
+import { UserData } from '../../providers/user-data';
 
 
 @Component({
@@ -14,18 +15,36 @@ import { ProjectDetailPage } from '../project-detail/project-detail';
 })
 export class ProjectListPage {
   actionSheet: ActionSheet;
-  speakers = [];
+  dayIndex = 0;
+  queryText = '';
+  segment = 'all';
+  excludeTracks = [];
+  projects = [];
+  shownProjects: any [];
 
-  constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public confData: ConferenceData, public config: Config) {}
+  constructor(
+    public alertCtrl: AlertController,
+    public actionSheetCtrl: ActionSheetController,
+    public navCtrl: NavController,
+    public confData: ConferenceData,
+    public config: Config,
+    public user: UserData
+    ) {}
 
   ionViewDidLoad() {
-    this.confData.getProjects().subscribe(speakers => {
-      this.speakers = speakers;
+    this.updateProject();
+  }
+
+  updateProject() {
+    this.confData.getProjectLine(this.queryText, this.segment).subscribe(projects => {
+      this.shownProjects = projects.shownProjects;
+      console.log(this.shownProjects)
+      this.projects = projects;
     });
   }
 
   goToSessionDetail(session) {
-    this.navCtrl.push(ProjectDetailPage, session);
+    this.navCtrl.push(SessionDetailPage, session);
   }
 
   goToSpeakerDetail(speakerName: any) {
@@ -87,4 +106,53 @@ export class ProjectListPage {
 
     actionSheet.present();
   }
+
+  addFavorite(card, projectData) {
+console.log(projectData)
+    if (this.user.hasFavorite(projectData.name)) {
+      // woops, they already favorited it! What shall we do!?
+      // prompt them to remove it
+      this.removeFavorite(card, projectData, 'Favorite already added');
+    } else {
+      // remember this session as a user favorite
+      this.user.addFavorite(projectData.name);
+
+      // create an alert instance
+      let alert = this.alertCtrl.create({
+        title: 'Favorite Added',
+        buttons: [{
+          text: 'OK'
+        }]
+      });
+      // now present the alert on top of all other content
+      alert.present();
+    }
+
+  }
+
+  removeFavorite(card, projectData, title) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      message: 'Would you like to remove this session from your favorites?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // they clicked the cancel button, do not remove the session
+          }
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            // they want to remove this session from their favorites
+            this.user.removeFavorite(projectData.name);
+            this.updateProject();
+          }
+        }
+      ]
+    });
+    // now present the alert on top of all other content
+    alert.present();
+  }
 }
+

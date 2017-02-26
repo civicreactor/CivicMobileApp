@@ -1,6 +1,10 @@
 
 page-project-list {
 
+  .card-ios + .ion-card {
+    margin-top: 12px !important;
+  }
+
   .scroll-content {
     background: #EDEDED;
   }
