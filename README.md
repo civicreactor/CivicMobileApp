@@ -33,9 +33,9 @@ See [CONTRIBUTING.md](https://github.com/driftyco/ionic-conference-app/blob/mast
 
 ## Use Cases
 
-* Action Sheet - [ [template](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/speaker-list/speaker-list.html) | [code](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/speaker-list/speaker-list.ts) ]
+* Action Sheet - [ [template](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/reactor-list/reactor-list.html) | [code](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/reactor-list/reactor-list.ts) ]
 * Alert - [ [code](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/schedule/schedule.ts) ]
-* Cards - [ [template](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/speaker-list/speaker-list.html) ]
+* Cards - [ [template](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/reactor-list/reactor-list.html) ]
 * Datetime - [ [template](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/about/about.html) ]
 * Grid - [ [template](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/login/login.html) ]
 * Inputs - [ [template](https://github.com/driftyco/ionic-conference-app/blob/master/src/pages/login/login.html) ]
@@ -145,10 +145,10 @@ ionic-conference-app/
 │    │    │    └── speaker-detail.ts     * SpeakerDetailPage code
 │    │    │    └── speaker-detail.scss   * SpeakerDetailPage stylesheet
 │    │    │
-│    │    │── speaker-list/              * Speakers tab page
-│    │    │    ├── speaker-list.html     * SpeakerListPage template
-│    │    │    └── speaker-list.ts       * SpeakerListPage code
-│    │    │    └── speaker-list.scss     * SpeakerListPage stylesheet
+│    │    │── reactor-list/              * Speakers tab page
+│    │    │    ├── reactor-list.html     * ReactorListPage template
+│    │    │    └── reactor-list.ts       * ReactorListPage code
+│    │    │    └── reactor-list.scss     * ReactorListPage stylesheet
 │    │    │
 │    │    │── tabs/                      * Tabs page
 │    │    │    ├── tabs.html             * TabsPage template

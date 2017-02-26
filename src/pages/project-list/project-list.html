@@ -33,7 +33,6 @@
 <ion-content class="outer-content project-list">
   <ion-list [hidden]="shownProjects === 0"> 
   <ion-card #cardProject *ngFor="let project of projects" class="speaker-card" [hidden]="project.hide">
-
     <ion-card-header>
       <button ion-item detail-none (click)="goToProjectDetail(project)">
         <ion-thumbnail item-left>
