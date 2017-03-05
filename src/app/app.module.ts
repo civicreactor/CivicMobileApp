@@ -10,6 +10,7 @@ import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { MapPage } from '../pages/map/map';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
@@ -22,6 +23,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
 
+import { AuthData } from '../providers/auth-data';
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
 
@@ -34,6 +36,7 @@ import { UserData } from '../providers/user-data';
     LoginPage,
     MapPage,
     PopoverPage,
+    ResetPasswordPage,
     SchedulePage,
     ScheduleFilterPage,
     SessionDetailPage,
@@ -57,6 +60,7 @@ import { UserData } from '../providers/user-data';
     LoginPage,
     MapPage,
     PopoverPage,
+    ResetPasswordPage,
     SchedulePage,
     ScheduleFilterPage,
     SessionDetailPage,
@@ -69,6 +73,6 @@ import { UserData } from '../providers/user-data';
     TutorialPage,
     SupportPage
   ],
-  providers: [ConferenceData, UserData, Storage]
+  providers: [AuthData, ConferenceData, UserData, Storage]
 })
 export class AppModule { }

@@ -36372,18 +36372,33 @@ page-account img {
   border-radius: 50%;
 }
 
-page-user .logo {
-  padding: 20px 0;
-  min-height: 200px;
-  text-align: center;
+page-login form {
+  margin-bottom: 32px;
 }
 
-page-user .logo img {
-  max-width: 150px;
+page-login form button {
+  margin-top: 20px;
 }
 
-page-user .list {
-  margin-bottom: 0;
+page-login p {
+  font-size: 0.8em;
+  color: #d2d2d2;
+}
+
+page-login ion-label {
+  margin-left: 5px;
+}
+
+page-login ion-input {
+  padding: 5px;
+}
+
+page-login .invalid {
+  border-bottom: 1px solid #FF6153;
+}
+
+page-login .error-message .item-inner {
+  border-bottom: 0 !important;
 }
 
 page-map ion-content {
@@ -36447,6 +36462,56 @@ page-project-list .speaker-card ion-card-content .list ion-item-content {
     width: 60%;
     margin: 10px auto;
   }
+}
+
+page-reactor-list .scroll-content {
+  background: #EDEDED;
+}
+
+page-reactor-list .speaker-card ion-card-header .item {
+  padding: 4px 16px;
+}
+
+page-reactor-list .speaker-card ion-card-header,
+page-reactor-list .speaker-card ion-card-content,
+page-reactor-list .speaker-card ion-card-content .list ion-item-content {
+  padding: 0;
+}
+
+@media (min-width: 600px) {
+  page-reactor-list .speaker-card {
+    width: 60%;
+    margin: 10px auto;
+  }
+}
+
+page-reset-password form {
+  margin-bottom: 32px;
+}
+
+page-reset-password form button {
+  margin-top: 20px;
+}
+
+page-reset-password p {
+  font-size: 0.8em;
+  color: #d2d2d2;
+}
+
+page-reset-password ion-label {
+  margin-left: 5px;
+}
+
+page-reset-password ion-input {
+  padding: 5px;
+}
+
+page-reset-password .invalid {
+  border-bottom: 1px solid #FF6153;
+}
+
+page-reset-password .error-message .item-inner {
+  border-bottom: 0 !important;
 }
 
 page-schedule ion-item-sliding[track=ionic] ion-label {
@@ -36593,6 +36658,35 @@ ion-item[track=navigation] .dot {
   margin-right: 10px;
 }
 
+page-signup form {
+  margin-bottom: 32px;
+}
+
+page-signup form button {
+  margin-top: 20px;
+}
+
+page-signup p {
+  font-size: 0.8em;
+  color: #d2d2d2;
+}
+
+page-signup ion-label {
+  margin-left: 5px;
+}
+
+page-signup ion-input {
+  padding: 5px;
+}
+
+page-signup .invalid {
+  border-bottom: 1px solid #FF6153;
+}
+
+page-signup .error-message .item-inner {
+  border-bottom: 0 !important;
+}
+
 page-speaker-detail .speaker-detail img {
   max-width: 140px;
   border-radius: 50%;
@@ -36600,27 +36694,6 @@ page-speaker-detail .speaker-detail img {
 
 page-speaker-detail .speaker-detail p {
   color: #60646B;
-}
-
-page-speaker-list .scroll-content {
-  background: #EDEDED;
-}
-
-page-speaker-list .speaker-card ion-card-header .item {
-  padding: 4px 16px;
-}
-
-page-speaker-list .speaker-card ion-card-header,
-page-speaker-list .speaker-card ion-card-content,
-page-speaker-list .speaker-card ion-card-content .list ion-item-content {
-  padding: 0;
-}
-
-@media (min-width: 600px) {
-  page-speaker-list .speaker-card {
-    width: 60%;
-    margin: 10px auto;
-  }
 }
 
 .tabbar {

@@ -1,18 +1,50 @@
-// Styles for all of the user pages:
-// Login, Signup, Support
-
-page-user {
-  .logo {
-    padding: 20px 0;
-    min-height: 200px;
-    text-align: center;
-
-    img {
-      max-width: 150px;
+page-login {
+  form {
+    margin-bottom: 32px;
+    button {
+      margin-top: 20px;
     }
   }
 
-  .list {
-    margin-bottom: 0;
+  p {
+    font-size: 0.8em;
+    color: #d2d2d2;
   }
+
+  ion-label {
+    margin-left: 5px;
+  }
+
+  ion-input {
+    padding: 5px;
+  }
+
+  .invalid {
+    border-bottom: 1px solid #FF6153;
+  }
+
+  .error-message .item-inner {
+    border-bottom: 0 !important;
+  }
+
 }
+
+
+// Styles for all of the user pages:
+// Login, Signup, Support
+
+// page-user {
+//   .logo {
+//     padding: 20px 0;
+//     min-height: 200px;
+//     text-align: center;
+
+//     img {
+//       max-width: 150px;
+//     }
+//   }
+
+//   .list {
+//     margin-bottom: 0;
+//   }
+// }

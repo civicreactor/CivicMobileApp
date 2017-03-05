@@ -1,27 +1,80 @@
+import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Component } from '@angular/core';
-
-import { NavController } from 'ionic-angular';
-
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthData } from '../../providers/auth-data';
+import { EmailValidator } from '../../app/validators/email';
 import { TabsPage } from '../tabs/tabs';
-import { UserData } from '../../providers/user-data';
-
 
 @Component({
-  selector: 'page-user',
+  selector: 'page-signup',
   templateUrl: 'signup.html'
 })
+
 export class SignupPage {
-  signup: {username?: string, password?: string} = {};
-  submitted = false;
+  public signupForm;
+  loading: any;
 
-  constructor(public navCtrl: NavController, public userData: UserData) {}
+  constructor(public nav: NavController, public authData: AuthData, public formBuilder: FormBuilder, 
+  public loadingCtrl: LoadingController, public alertCtrl: AlertController) 
+  {
+    this.signupForm = formBuilder.group({
+      email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
+      password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+    });
+  }
 
-  onSignup(form) {
-    this.submitted = true;
-
-    if (form.valid) {
-      this.userData.signup(this.signup.username);
-      this.navCtrl.push(TabsPage);
+  signupUser() {
+    if (!this.signupForm.valid) {
+      console.log(this.signupForm.value);
+    } else {
+      this.authData.signupUser(this.signupForm.value.email, this.signupForm.value.password)
+      .then( () => {
+        this.loading.dismiss().then( () => {
+          this.nav.setRoot(TabsPage);
+        });
+      }, (error) => {
+        this.loading.dismiss().then( () => {
+          let alert = this.alertCtrl.create({
+            message: error.message,
+            buttons: [{
+              text: 'Ok',
+              role: 'cancel'
+            }]
+          });
+        });
+      });
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
     }
   }
 }
+
+
+
+// import { Component } from '@angular/core';
+
+// import { NavController } from 'ionic-angular';
+
+// import { TabsPage } from '../tabs/tabs';
+// import { UserData } from '../../providers/user-data';
+
+
+// @Component({
+//   selector: 'page-user',
+//   templateUrl: 'signup.html'
+// })
+// export class SignupPage {
+//   signup: {username?: string, password?: string} = {};
+//   submitted = false;
+
+//   constructor(public navCtrl: NavController, public userData: UserData) {}
+
+//   onSignup(form) {
+//     this.submitted = true;
+
+//     if (form.valid) {
+//       this.userData.signup(this.signup.username);
+//       this.navCtrl.push(TabsPage);
+//     }
+//   }
+// }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, NgZone, ViewChild } from '@angular/core';
 
 import { Events, MenuController, Nav, Platform } from 'ionic-angular';
 import { Splashscreen } from 'ionic-native';
@@ -13,6 +13,8 @@ import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
+
+import firebase from 'firebase';
 
 export interface PageInterface {
   title: string;
@@ -51,6 +53,7 @@ export class ConferenceApp {
     { title: 'Signup', component: SignupPage, icon: 'person-add' }
   ];
   rootPage: any;
+  zone: NgZone;
 
   constructor(
     public events: Events,
@@ -60,6 +63,30 @@ export class ConferenceApp {
     public confData: ConferenceData,
     public storage: Storage
   ) {
+    this.zone = new NgZone({});
+
+    //Initialize firebase
+    var config = {
+      apiKey: "AIzaSyD8ARE1d0WnzjKee40XVaKiEtSr45mkqfw",
+      authDomain: "civic-mobile-app.firebaseapp.com",
+      databaseURL: "https://civic-mobile-app.firebaseio.com",
+      storageBucket: "civic-mobile-app.appspot.com",
+      messagingSenderId: "88170624408"
+    };
+    firebase.initializeApp(config);
+
+
+    const unsubscribe = firebase.auth().onAuthStateChanged( (username) => {
+      this.zone.run( () => {
+        if (!username) {
+          this.rootPage = LoginPage;
+          unsubscribe();
+        } else { 
+          this.rootPage = TabsPage; 
+          unsubscribe();
+        }
+      });     
+    });
 
     // Check if the user has already seen the tutorial
     this.storage.get('hasSeenTutorial')
