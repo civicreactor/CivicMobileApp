@@ -27,7 +27,6 @@ import { AuthData } from '../providers/auth-data';
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
 
-
 @NgModule({
   declarations: [
     ConferenceApp,

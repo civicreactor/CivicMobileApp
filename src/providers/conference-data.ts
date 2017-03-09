@@ -167,7 +167,6 @@ export class ConferenceData {
             // if this session is not hidden then this group should show
             project.hide = false;
             projects.shownProjects++;
-            console.log("projects >>" + projects.shownProjects)
           }
         });
         return projects;
@@ -176,9 +175,6 @@ export class ConferenceData {
   
 
   filterProject(project, queryWords, segment) {
-    // console.log(project)
-    // console.log(queryWords)
-    // console.log(segment)
     let matchesQueryText = false;
     if (queryWords.length) {
       // of any query word is in the session name than it passes the query test
@@ -197,7 +193,6 @@ export class ConferenceData {
     let matchesSegment = false;
     if (segment === 'favorites') {
       if (this.user.hasFavorite(project.name)) {
-        console.log('this user has favorite project name: ' + project.name)
         matchesSegment = true;
       }
     } else {
@@ -206,7 +201,6 @@ export class ConferenceData {
 
     // all tests must be true if it should not be hidden
     project.hide = !(matchesQueryText && matchesSegment);
-    console.log(project.hide)
   }
 
   getTracks() {

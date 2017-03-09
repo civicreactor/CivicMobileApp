@@ -13,8 +13,10 @@ import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
+import { AuthData } from '../providers/auth-data';
 
-import firebase from 'firebase';
+// import firebase from 'firebase';
+import * as firebase from 'firebase'
 
 export interface PageInterface {
   title: string;
@@ -28,6 +30,7 @@ export interface PageInterface {
   templateUrl: 'app.template.html'
 })
 export class ConferenceApp {
+  
   // the root nav is a child of the root app component
   // @ViewChild(Nav) gets a reference to the app's root nav
   @ViewChild(Nav) nav: Nav;
@@ -54,36 +57,37 @@ export class ConferenceApp {
   ];
   rootPage: any;
   zone: NgZone;
+  public fireAuth: any;
 
   constructor(
     public events: Events,
     public userData: UserData,
+    public authData: AuthData,
     public menu: MenuController,
     public platform: Platform,
     public confData: ConferenceData,
     public storage: Storage
   ) {
     this.zone = new NgZone({});
-
-    //Initialize firebase
-    var config = {
-      apiKey: "AIzaSyD8ARE1d0WnzjKee40XVaKiEtSr45mkqfw",
-      authDomain: "civic-mobile-app.firebaseapp.com",
-      databaseURL: "https://civic-mobile-app.firebaseio.com",
-      storageBucket: "civic-mobile-app.appspot.com",
-      messagingSenderId: "88170624408"
-    };
-    firebase.initializeApp(config);
-
-
-    const unsubscribe = firebase.auth().onAuthStateChanged( (username) => {
+    firebase.initializeApp({
+        apiKey: "AIzaSyD8ARE1d0WnzjKee40XVaKiEtSr45mkqfw",
+        authDomain: "civic-mobile-app.firebaseapp.com",
+        databaseURL: "https://civic-mobile-app.firebaseio.com",
+        storageBucket: "civic-mobile-app.appspot.com",
+        messagingSenderId: "88170624408"
+      });
+    
+    firebase.auth().onAuthStateChanged( (user) => {
       this.zone.run( () => {
-        if (!username) {
+        if (!user) {
+          // console.log('logged in as: ' + user.email + ' ' + user.uid )
           this.rootPage = LoginPage;
-          unsubscribe();
+          this.enableMenu(false);
+          // unsubscribe();
         } else { 
           this.rootPage = TabsPage; 
-          unsubscribe();
+          this.enableMenu(true);
+          // unsubscribe();
         }
       });     
     });
@@ -103,11 +107,11 @@ export class ConferenceApp {
     confData.load();
 
     // decide which menu items should be hidden by current login status stored in local storage
-    this.userData.hasLoggedIn().then((hasLoggedIn) => {
-      this.enableMenu(hasLoggedIn === true);
-    });
+    // this.userData.hasLoggedIn().then((hasLoggedIn) => {
+      // this.enableMenu(hasLoggedIn === true);
+    // });
 
-    this.listenToLoginEvents();
+    // this.listenToLoginEvents();
   }
 
   openPage(page: PageInterface) {
@@ -116,7 +120,6 @@ export class ConferenceApp {
     // we wouldn't want the back button to show in this scenario
     if (page.index) {
       this.nav.setRoot(page.component, { tabIndex: page.index });
-
     } else {
       this.nav.setRoot(page.component).catch(() => {
         console.log("Didn't set nav root");
@@ -126,27 +129,53 @@ export class ConferenceApp {
     if (page.logsOut === true) {
       // Give the menu time to close before changing to logged out
       setTimeout(() => {
-        this.userData.logout();
+        this.authData.logoutUser();
+
+
+    //     logoutUser(): firebase.Promise<any> {
+    // console.log('yes, logged out!!!')
+    // return this.fireAuth.signOut();
+  // }
+
+
       }, 1000);
     }
   }
   openTutorial() {
     this.nav.setRoot(TutorialPage);
   }
+  // listenToLoginEvents() {
+  //   this.events.subscribe('user:login', () => {
+  //     this.enableMenu(true);
+  //   });
+
+  //   this.events.subscribe('user:signup', () => {
+  //     this.enableMenu(true);
+  //   });
+
+  //   this.events.subscribe('user:logout', () => {
+  //     this.enableMenu(false);
+  //   });
+  // }
+
   listenToLoginEvents() {
-    this.events.subscribe('user:login', () => {
+    console.log('inside listening events')
+    this.events.subscribe('user:loginUser', () => {
+      console.log('calling the enable menu function')
       this.enableMenu(true);
     });
 
-    this.events.subscribe('user:signup', () => {
+    this.events.subscribe('user:signupUser', () => {
       this.enableMenu(true);
     });
 
-    this.events.subscribe('user:logout', () => {
+    this.events.subscribe('user:logoutUser', () => {
       this.enableMenu(false);
     });
   }
+
   enableMenu(loggedIn) {
+    console.log("Logged in: " + loggedIn)
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }

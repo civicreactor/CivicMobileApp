@@ -5,17 +5,17 @@ import { AlertController, NavController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { SupportPage } from '../support/support';
 import { UserData } from '../../providers/user-data';
-
+import { AuthData } from '../../providers/auth-data';
 
 @Component({
   selector: 'page-account',
   templateUrl: 'account.html'
 })
 export class AccountPage {
-  username: string;
+  user: firebase.User;
 
-  constructor(public alertCtrl: AlertController, public nav: NavController, public userData: UserData) {
-
+  constructor(public alertCtrl: AlertController, public nav: NavController, public authData: AuthData, 
+              public userData: UserData) {
   }
 
   ngAfterViewInit() {
@@ -38,14 +38,14 @@ export class AccountPage {
     });
     alert.addInput({
       name: 'username',
-      value: this.username,
+      value: this.user.displayName,
       placeholder: 'username'
     });
     alert.addButton({
       text: 'Ok',
       handler: data => {
-        this.userData.setUsername(data.username);
-        this.getUsername();
+        // this.userData.setUsername(data.username);
+        // this.getUsername();
       }
     });
 
@@ -53,17 +53,17 @@ export class AccountPage {
   }
 
   getUsername() {
-    this.userData.getUsername().then((username) => {
-      this.username = username;
-    });
+    this.user = this.userData.getUsername();
+    console.log('user: ' + this.user)
   }
 
   changePassword() {
     console.log('Clicked to change password');
   }
 
-  logout() {
-    this.userData.logout();
+  logoutUser() {
+    console.log('first call to logout...')
+    this.authData.logoutUser();
     this.nav.setRoot(LoginPage);
   }
 
