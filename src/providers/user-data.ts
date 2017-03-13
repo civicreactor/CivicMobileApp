@@ -61,11 +61,11 @@ export class UserData {
   };
 
   // return a promise
-  hasLoggedIn() {
-    return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-      return value === true;
-    });
-  };
+  // hasLoggedIn() {
+  //   return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
+  //     return value === true;
+  //   });
+  // };
 
   checkHasSeenTutorial() {
     return this.storage.get(this.HAS_SEEN_TUTORIAL).then((value) => {

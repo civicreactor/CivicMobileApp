@@ -68,40 +68,38 @@ export class ConferenceApp {
     public confData: ConferenceData,
     public storage: Storage
   ) {
+    this.rootPage = TabsPage;
     this.zone = new NgZone({});
-    firebase.initializeApp({
-        apiKey: "AIzaSyD8ARE1d0WnzjKee40XVaKiEtSr45mkqfw",
-        authDomain: "civic-mobile-app.firebaseapp.com",
-        databaseURL: "https://civic-mobile-app.firebaseio.com",
-        storageBucket: "civic-mobile-app.appspot.com",
-        messagingSenderId: "88170624408"
-      });
+      firebase.initializeApp({
+      apiKey: "AIzaSyCmNbpAGT-QjhV0dD01CTR_hbiRkQNtErQ",
+      authDomain: "civic-mobile-app-46e73.firebaseapp.com",
+      databaseURL: "https://civic-mobile-app-46e73.firebaseio.com",
+      storageBucket: "civic-mobile-app-46e73.appspot.com",
+      messagingSenderId: "839668242779"
+    });
     
     firebase.auth().onAuthStateChanged( (user) => {
       this.zone.run( () => {
         if (!user) {
-          // console.log('logged in as: ' + user.email + ' ' + user.uid )
-          this.rootPage = LoginPage;
+          // this.rootPage = LoginPage;
           this.enableMenu(false);
-          // unsubscribe();
         } else { 
-          this.rootPage = TabsPage; 
+          // this.rootPage = TabsPage; 
           this.enableMenu(true);
-          // unsubscribe();
         }
       });     
     });
 
     // Check if the user has already seen the tutorial
-    this.storage.get('hasSeenTutorial')
-      .then((hasSeenTutorial) => {
-        if (hasSeenTutorial) {
-          this.rootPage = TabsPage;
-        } else {
-          this.rootPage = TutorialPage;
-        }
-        this.platformReady()
-      })
+    // this.storage.get('hasSeenTutorial')
+    //   .then((hasSeenTutorial) => {
+    //     if (hasSeenTutorial) {
+    //       this.rootPage = TabsPage;
+    //     } else {
+    //       this.rootPage = TutorialPage;
+    //     }
+    //     this.platformReady()
+    //   })
 
     // load the conference data
     confData.load();
@@ -130,52 +128,26 @@ export class ConferenceApp {
       // Give the menu time to close before changing to logged out
       setTimeout(() => {
         this.authData.logoutUser();
-
-
-    //     logoutUser(): firebase.Promise<any> {
-    // console.log('yes, logged out!!!')
-    // return this.fireAuth.signOut();
-  // }
-
-
       }, 1000);
     }
   }
   openTutorial() {
     this.nav.setRoot(TutorialPage);
   }
+
   // listenToLoginEvents() {
-  //   this.events.subscribe('user:login', () => {
+  //   this.events.subscribe('user:loginUser', () => {
   //     this.enableMenu(true);
   //   });
-
-  //   this.events.subscribe('user:signup', () => {
+  //   this.events.subscribe('user:signupUser', () => {
   //     this.enableMenu(true);
   //   });
-
-  //   this.events.subscribe('user:logout', () => {
+  //   this.events.subscribe('user:logoutUser', () => {
   //     this.enableMenu(false);
   //   });
   // }
 
-  listenToLoginEvents() {
-    console.log('inside listening events')
-    this.events.subscribe('user:loginUser', () => {
-      console.log('calling the enable menu function')
-      this.enableMenu(true);
-    });
-
-    this.events.subscribe('user:signupUser', () => {
-      this.enableMenu(true);
-    });
-
-    this.events.subscribe('user:logoutUser', () => {
-      this.enableMenu(false);
-    });
-  }
-
   enableMenu(loggedIn) {
-    console.log("Logged in: " + loggedIn)
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }

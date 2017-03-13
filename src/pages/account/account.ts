@@ -3,9 +3,13 @@ import { Component } from '@angular/core';
 import { AlertController, NavController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
+import { ResetPasswordPage } from '../reset-password/reset-password';
 import { SupportPage } from '../support/support';
 import { UserData } from '../../providers/user-data';
 import { AuthData } from '../../providers/auth-data';
+import { TabsPage } from '../tabs/tabs';
+
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'page-account',
@@ -31,24 +35,24 @@ export class AccountPage {
   // clicking Cancel will close the alert and do nothing
   changeUsername() {
     let alert = this.alertCtrl.create({
-      title: 'Change Username',
+      title: 'Add a Name',
       buttons: [
         'Cancel'
       ]
     });
     alert.addInput({
       name: 'username',
-      value: this.user.displayName,
-      placeholder: 'username'
+      placeholder: 'Change your name'
     });
     alert.addButton({
       text: 'Ok',
       handler: data => {
-        // this.userData.setUsername(data.username);
-        // this.getUsername();
+        firebase.auth().currentUser.updateProfile({
+          displayName: data.username,
+          photoURL: ''
+        });
       }
     });
-
     alert.present();
   }
 
@@ -57,14 +61,18 @@ export class AccountPage {
     console.log('user: ' + this.user)
   }
 
+  goToResetPassword(): void {
+    this.nav.push(ResetPasswordPage);
+  }
+
   changePassword() {
-    console.log('Clicked to change password');
+    // var newPassword = getASecureRandomPassword();
+    // firebase.auth().currentUser.updatePassword(newPassword);
   }
 
   logoutUser() {
-    console.log('first call to logout...')
     this.authData.logoutUser();
-    this.nav.setRoot(LoginPage);
+    this.nav.push(TabsPage);
   }
 
   support() {
