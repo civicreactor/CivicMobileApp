@@ -16,9 +16,9 @@ export class TabsPage {
   // set the root pages for each tab
   tab1Root: any = SchedulePage;
   tab2Root: any = ReactorListPage;
-  tab3Root: any = MapPage;
-  tab4Root: any = AboutPage;
-  tab5Root: any = ProjectListPage;
+  tab3Root: any = ProjectListPage;
+  tab4Root: any = MapPage;
+  tab5Root: any = AboutPage;
   mySelectedIndex: number;
 
   constructor(navParams: NavParams) {

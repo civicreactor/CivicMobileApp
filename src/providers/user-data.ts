@@ -32,40 +32,11 @@ export class UserData {
     }
   };
 
-  // login(username) {
-  //   this.storage.set(this.HAS_LOGGED_IN, true);
-  //   this.setUsername(username);
-  //   this.events.publish('user:login');
-  // };
-
-  // signup(username) {
-  //   this.storage.set(this.HAS_LOGGED_IN, true);
-  //   this.setUsername(username);
-  //   this.events.publish('user:signup');
-  // };
-
-  // logout() {
-  //   this.storage.remove(this.HAS_LOGGED_IN);
-  //   this.storage.remove('username');
-  //   this.events.publish('user:logout');
-  // };
-
-  // setUsername(username) {
-  //   this.storage.set('username', username);
-  // };
-
   getUsername() {
     var user = firebase.auth().currentUser;
     console.log(user)
     return user;
   };
-
-  // return a promise
-  // hasLoggedIn() {
-  //   return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-  //     return value === true;
-  //   });
-  // };
 
   checkHasSeenTutorial() {
     return this.storage.get(this.HAS_SEEN_TUTORIAL).then((value) => {
