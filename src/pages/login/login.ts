@@ -43,7 +43,8 @@ export class LoginPage {
     if (!this.loginForm.valid){
       console.log(this.loginForm.value);
     } else {
-      this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password).then( authData => {
+      this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password)
+      .then( authData => {
         this.loading.dismiss().then( () => {
           this.nav.setRoot(TabsPage);
         });
@@ -77,36 +78,3 @@ export class LoginPage {
 
 }
 
-
-// import { Component } from '@angular/core';
-
-// import { NavController } from 'ionic-angular';
-
-// import { SignupPage } from '../signup/signup';
-// import { TabsPage } from '../tabs/tabs';
-// import { UserData } from '../../providers/user-data';
-
-
-// @Component({
-//   selector: 'page-user',
-//   templateUrl: 'login.html'
-// })
-// export class LoginPage {
-//   login: {username?: string, password?: string} = {};
-//   submitted = false;
-
-//   constructor(public navCtrl: NavController, public userData: UserData) { }
-
-//   onLogin(form) {
-//     this.submitted = true;
-
-//     if (form.valid) {
-//       this.userData.login(this.login.username);
-//       this.navCtrl.push(TabsPage);
-//     }
-//   }
-
-//   onSignup() {
-//     this.navCtrl.push(SignupPage);
-//   }
-// }

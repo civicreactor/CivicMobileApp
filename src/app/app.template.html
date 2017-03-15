@@ -15,7 +15,7 @@
         Navigate
       </ion-list-header>
       <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)">
-        <ion-icon item-left [name]="p.icon"></ion-icon>
+        <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
         {{p.title}}
       </button>
     </ion-list>
@@ -25,18 +25,8 @@
         Account
       </ion-list-header>
       <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)">
-        <ion-icon item-left [name]="p.icon"></ion-icon>
+        <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
         {{p.title}}
-      </button>
-    </ion-list>
-
-    <ion-list>
-      <ion-list-header>
-        Tutorial
-      </ion-list-header>
-      <button ion-item menuClose (click)="openTutorial()">
-        <ion-icon item-left name="hammer"></ion-icon>
-        Show Tutorial
       </button>
     </ion-list>
   </ion-content>
@@ -59,7 +49,7 @@
         Navigate
       </ion-list-header>
       <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)">
-        <ion-icon item-left [name]="p.icon"></ion-icon>
+        <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
         {{p.title}}
       </button>
     </ion-list>
@@ -69,21 +59,10 @@
         Account
       </ion-list-header>
       <button ion-item menuClose *ngFor="let p of loggedInPages" (click)="openPage(p)">
-        <ion-icon item-left [name]="p.icon"></ion-icon>
+        <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
         {{p.title}}
       </button>
     </ion-list>
-
-    <ion-list>
-      <ion-list-header>
-        Tutorial
-      </ion-list-header>
-      <button ion-item menuClose (click)="openTutorial()">
-        <ion-icon item-left name="hammer"></ion-icon>
-        Show Tutorial
-      </button>
-    </ion-list>
-
   </ion-content>
 
 </ion-menu>

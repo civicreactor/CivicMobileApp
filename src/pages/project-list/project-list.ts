@@ -38,7 +38,6 @@ export class ProjectListPage {
   updateProject() {
     this.confData.getProjectLine(this.queryText, this.segment).subscribe(projects => {
       this.shownProjects = projects.shownProjects;
-      console.log(this.shownProjects)
       this.projects = projects;
     });
   }
@@ -108,7 +107,6 @@ export class ProjectListPage {
   }
 
   addFavorite(card, projectData) {
-console.log(projectData)
     if (this.user.hasFavorite(projectData.name)) {
       // woops, they already favorited it! What shall we do!?
       // prompt them to remove it

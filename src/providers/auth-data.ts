@@ -1,35 +1,37 @@
 import { Injectable } from '@angular/core';
+import { Events } from 'ionic-angular';
 
-import firebase from 'firebase';
+// import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class AuthData {
   // Here we declare the variables we'll be using.
-  public fireAuth: any;
-  public userProfile: any;
+  // public fireAuth: any;
+  // public userProfile: any;
 
   constructor() {
-    this.fireAuth = firebase.auth();
-    this.userProfile = firebase.database().ref('/userProfile');
+    // this.userProfile = firebase.database().ref('/userProfile');
   }
 
   loginUser(email: string, password: string): firebase.Promise<any> {
-    return this.fireAuth.signInWithEmailAndPassword(email, password);
+    console.log('loggin in.....')
+    return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
   signupUser(email: string, password: string): firebase.Promise<any> {
-    return this.fireAuth.createUserWithEmailAndPassword(email, password)
+    return firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((newUser) => {
-        this.userProfile.child(newUser.uid).set({email: email});
+        firebase.database().ref('/userProfile').child(newUser.uid).set({email: email});
         });
   }
 
   resetPassword(email: string): firebase.Promise<any> {
-    return this.fireAuth.sendPasswordResetEmail(email);
+    return firebase.auth().sendPasswordResetEmail(email);
   }
 
   logoutUser(): firebase.Promise<any> {
-    return this.fireAuth.signOut();
+    return firebase.auth().signOut();
   }
 
 }
