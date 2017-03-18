@@ -35,7 +35,7 @@ export class AccountPage {
   // clicking Cancel will close the alert and do nothing
   changeUsername() {
     let alert = this.alertCtrl.create({
-      title: 'Add a Name',
+      title: 'Change your Name',
       buttons: [
         'Cancel'
       ]

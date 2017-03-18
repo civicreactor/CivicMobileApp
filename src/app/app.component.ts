@@ -3,6 +3,7 @@ import { Component, NgZone, ViewChild } from '@angular/core';
 import { Events, MenuController, Nav, Platform } from 'ionic-angular';
 import { Splashscreen } from 'ionic-native';
 import { Storage } from '@ionic/storage';
+import { API_FIREBASE_KEY } from './mock-api';
 
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
@@ -77,8 +78,9 @@ export class ConferenceApp {
   ) {
     this.rootPage = TabsPage;
     this.zone = new NgZone({});
+    console.log(API_FIREBASE_KEY.API_FIREBASE_KEY)
       firebase.initializeApp({
-      apiKey: "AIzaSyCmNbpAGT-QjhV0dD01CTR_hbiRkQNtErQ",
+      apiKey: API_FIREBASE_KEY.API_FIREBASE_KEY,
       authDomain: "civic-mobile-app-46e73.firebaseapp.com",
       databaseURL: "https://civic-mobile-app-46e73.firebaseio.com",
       storageBucket: "civic-mobile-app-46e73.appspot.com",
@@ -87,12 +89,10 @@ export class ConferenceApp {
     
     firebase.auth().onAuthStateChanged( (user) => {
       this.zone.run( () => {
-        if (!user) {
-          // this.rootPage = LoginPage;
-          this.enableMenu(false);
-        } else { 
-          // this.rootPage = TabsPage; 
+        if (user) {
           this.enableMenu(true);
+        } else { 
+          this.enableMenu(false);
         }
       });     
     });
