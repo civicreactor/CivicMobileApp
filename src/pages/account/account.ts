@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 
 import { AlertController, NavController } from 'ionic-angular';
 
-import { LoginPage } from '../login/login';
 import { ResetPasswordPage } from '../reset-password/reset-password';
 import { SupportPage } from '../support/support';
 import { UserData } from '../../providers/user-data';
 import { AuthData } from '../../providers/auth-data';
 import { TabsPage } from '../tabs/tabs';
 
+import { AngularFire } from 'angularfire2';
 import * as firebase from 'firebase';
 
 @Component({
@@ -19,7 +19,7 @@ export class AccountPage {
   user: firebase.User;
 
   constructor(public alertCtrl: AlertController, public nav: NavController, public authData: AuthData, 
-              public userData: UserData) {
+              public userData: UserData, public af: AngularFire) {
   }
 
   ngAfterViewInit() {
@@ -58,20 +58,14 @@ export class AccountPage {
 
   getUsername() {
     this.user = this.userData.getUsername();
-    console.log('user: ' + this.user)
   }
 
   goToResetPassword(): void {
     this.nav.push(ResetPasswordPage);
   }
 
-  changePassword() {
-    // var newPassword = getASecureRandomPassword();
-    // firebase.auth().currentUser.updatePassword(newPassword);
-  }
-
   logoutUser() {
-    this.authData.logoutUser();
+    this.af.auth.logout();
     this.nav.push(TabsPage);
   }
 

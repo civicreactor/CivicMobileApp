@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 
 import { ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
-import { InAppBrowser } from 'ionic-native';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { SpeakerDetailPage } from '../speaker-detail/speaker-detail';
+import { UserData } from '../../providers/user-data';
+
+import {AngularFire, FirebaseListObservable} from 'angularfire2';
 
 
 @Component({
@@ -14,14 +17,23 @@ import { SpeakerDetailPage } from '../speaker-detail/speaker-detail';
 })
 export class ReactorListPage {
   actionSheet: ActionSheet;
-  speakers = [];
+  reactors: FirebaseListObservable<any>;
 
-  constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public confData: ConferenceData, public config: Config) {}
+  constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public confData: ConferenceData, public config: Config, 
+              public inAppBrowser: InAppBrowser, public user: UserData, af: AngularFire) {
+                this.reactors = af.database.list('/reactors');
+                // this.reactors.subscribe(snapshots => {
+                //   snapshots.forEach(snapshot => {
+                //     console.log(snapshot.val())
+                //   })
+                // })
+              }
 
   ionViewDidLoad() {
-    this.confData.getSpeakers().subscribe(speakers => {
-      this.speakers = speakers;
-    });
+    // this.confData.getSpeakers().subscribe(reactors => {
+    //   this.reactors = reactors;
+    // });
+
   }
 
   goToSessionDetail(session) {
@@ -33,7 +45,7 @@ export class ReactorListPage {
   }
 
   goToSpeakerTwitter(speaker) {
-    new InAppBrowser(`https://twitter.com/${speaker.twitter}`, '_blank');
+    this.inAppBrowser.create(`https://twitter.com/${speaker.twitter}`, '_blank');
   }
 
   openSpeakerShare(speaker) {

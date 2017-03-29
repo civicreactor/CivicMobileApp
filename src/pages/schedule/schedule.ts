@@ -45,18 +45,18 @@ export class SchedulePage {
 
   ionViewDidLoad() {
     this.app.setTitle('Schedule');
-    this.updateSchedule();
+    // this.updateSchedule();
   }
 
-  updateSchedule() {
-    // Close any open sliding items when the schedule updates
-    this.scheduleList && this.scheduleList.closeSlidingItems();
+  // updateSchedule() {
+  //   // Close any open sliding items when the schedule updates
+  //   this.scheduleList && this.scheduleList.closeSlidingItems();
 
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe(data => {
-      this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
-    });
-  }
+  //   this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe(data => {
+  //     this.shownSessions = data.shownSessions;
+  //     this.groups = data.groups;
+  //   });
+  // }
 
   presentFilter() {
     let modal = this.modalCtrl.create(ScheduleFilterPage, this.excludeTracks);
@@ -65,7 +65,7 @@ export class SchedulePage {
     modal.onWillDismiss((data: any[]) => {
       if (data) {
         this.excludeTracks = data;
-        this.updateSchedule();
+        // this.updateSchedule();
       }
     });
 
@@ -121,7 +121,7 @@ export class SchedulePage {
           handler: () => {
             // they want to remove this session from their favorites
             this.user.removeFavorite(sessionData.name);
-            this.updateSchedule();
+            // this.updateSchedule();
 
             // close the sliding item and hide the option buttons
             slidingItem.close();

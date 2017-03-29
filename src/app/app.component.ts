@@ -1,15 +1,16 @@
 import { Component, NgZone, ViewChild } from '@angular/core';
 
 import { Events, MenuController, Nav, Platform } from 'ionic-angular';
-import { Splashscreen } from 'ionic-native';
-import { Storage } from '@ionic/storage';
-import { API_FIREBASE_KEY } from './mock-api';
+import { SplashScreen } from '@ionic-native/splash-screen';
+// import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage'
+// import { API_FIREBASE_KEY } from './mock-api';
 
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
-import { TutorialPage } from '../pages/tutorial/tutorial';
+// import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
 
 import { SchedulePage } from '../pages/schedule/schedule';
@@ -22,8 +23,9 @@ import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
 import { AuthData } from '../providers/auth-data';
 
-// import firebase from 'firebase';
-import * as firebase from 'firebase';
+import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
+
+import firebase from 'firebase';
 
 export interface PageInterface {
   title: string;
@@ -35,7 +37,8 @@ export interface PageInterface {
 }
 
 @Component({
-  templateUrl: 'app.template.html'
+  templateUrl: 'app.template.html',
+  providers: [AuthData]
 })
 export class ConferenceApp {
   
@@ -47,11 +50,11 @@ export class ConferenceApp {
   // the left menu only works after login
   // the login page disables the left menu
   appPages: PageInterface[] = [
-    { title: 'Events', component: TabsPage, tabComponent: SchedulePage, icon: 'calendar' },
+    // { title: 'Events', component: TabsPage, tabComponent: SchedulePage, icon: 'calendar' },
+    { title: 'Projects', component: TabsPage, tabComponent: ProjectListPage, icon: 'filing' },
     { title: 'Reactors', component: TabsPage, tabComponent: ReactorListPage, index: 1, icon: 'contacts' },
-    { title: 'Projects', component: TabsPage, tabComponent: ProjectListPage, index: 2, icon: 'filing' },
-    { title: 'Map', component: TabsPage, tabComponent: MapPage, index: 3, icon: 'map' },
-    { title: 'About', component: TabsPage, tabComponent: AboutPage, index: 4, icon: 'information-circle' }
+    { title: 'Map', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map' },
+    { title: 'About', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' }
   ];
   loggedInPages: PageInterface[] = [
     { title: 'Account', component: AccountPage, icon: 'person' },
@@ -66,6 +69,7 @@ export class ConferenceApp {
   rootPage: any;
   zone: NgZone;
   public fireAuth: any;
+  // projects: FirebaseObjectObservable<any>;
 
   constructor(
     public events: Events,
@@ -74,20 +78,14 @@ export class ConferenceApp {
     public menu: MenuController,
     public platform: Platform,
     public confData: ConferenceData,
-    public storage: Storage
+    public storage: Storage,
+    public splashScreen: SplashScreen,
+    public af: AngularFire
   ) {
     this.rootPage = TabsPage;
     this.zone = new NgZone({});
-    console.log(API_FIREBASE_KEY.API_FIREBASE_KEY)
-      firebase.initializeApp({
-      apiKey: API_FIREBASE_KEY.API_FIREBASE_KEY,
-      authDomain: "civic-mobile-app-46e73.firebaseapp.com",
-      databaseURL: "https://civic-mobile-app-46e73.firebaseio.com",
-      storageBucket: "civic-mobile-app-46e73.appspot.com",
-      messagingSenderId: "839668242779"
-    });
-    
-    firebase.auth().onAuthStateChanged( (user) => {
+
+    af.auth.subscribe( (user) => {
       this.zone.run( () => {
         if (user) {
           this.enableMenu(true);
@@ -97,7 +95,7 @@ export class ConferenceApp {
       });     
     });
 
-    confData.load();
+    // confData.load();
   }
 
   openPage(page: PageInterface) {
@@ -127,13 +125,12 @@ export class ConferenceApp {
   platformReady() {
     // Call any initial plugins when ready
     this.platform.ready().then(() => {
-      Splashscreen.hide();
+      this.splashScreen.hide();
     });
   }
 
   isActive(page: PageInterface) {
     let childNav = this.nav.getActiveChildNav();
-
     // Tabs are a special case because they have their own navigation
     if (childNav) {
       if (childNav.getSelected() && childNav.getSelected().root === page.tabComponent) {
@@ -141,7 +138,6 @@ export class ConferenceApp {
       }
       return;
     }
-
     if (this.nav.getActive() && this.nav.getActive().component === page.component) {
       return 'primary';
     }

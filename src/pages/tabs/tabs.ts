@@ -14,11 +14,10 @@ import { ProjectListPage } from '../project-list/project-list';
 })
 export class TabsPage {
   // set the root pages for each tab
-  tab1Root: any = SchedulePage;
+  tab1Root: any = ProjectListPage;
   tab2Root: any = ReactorListPage;
-  tab3Root: any = ProjectListPage;
-  tab4Root: any = MapPage;
-  tab5Root: any = AboutPage;
+  tab3Root: any = MapPage;
+  tab4Root: any = AboutPage;
   mySelectedIndex: number;
 
   constructor(navParams: NavParams) {

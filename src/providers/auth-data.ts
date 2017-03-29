@@ -1,29 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Events } from 'ionic-angular';
+import { AngularFire, AuthProviders, AngularFireAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
 
-// import firebase from 'firebase';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
+
 
 @Injectable()
 export class AuthData {
   // Here we declare the variables we'll be using.
   // public fireAuth: any;
-  // public userProfile: any;
+  // private userProfile: any;
+  fireAuth: any;
+  private authState: FirebaseAuthState;
 
-  constructor() {
-    // this.userProfile = firebase.database().ref('/userProfile');
+  constructor(public af: AngularFire) {
+    af.auth.subscribe(user => {
+      if (user) {
+        this.fireAuth = user.auth;
+        console.log(user);
+      }
+    })
   }
 
-  loginUser(email: string, password: string): firebase.Promise<any> {
-    console.log('loggin in.....')
-    return firebase.auth().signInWithEmailAndPassword(email, password);
+  loginUser(newEmail: string, newPassword: string): firebase.Promise<any> {
+    return this.af.auth.login({email: newEmail , password: newPassword});
   }
 
-  signupUser(email: string, password: string): firebase.Promise<any> {
-    return firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((newUser) => {
-        firebase.database().ref('/userProfile').child(newUser.uid).set({email: email});
-        });
+  signupUser(newEmail: string, newPassword: string): firebase.Promise<any> {
+    return this.af.auth.createUser({email: newEmail, password: newPassword});
   }
 
   resetPassword(email: string): firebase.Promise<any> {
@@ -31,7 +34,7 @@ export class AuthData {
   }
 
   logoutUser(): firebase.Promise<any> {
-    return firebase.auth().signOut();
+    return this.af.auth.logout();
   }
 
 }

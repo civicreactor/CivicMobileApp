@@ -4,6 +4,8 @@ import { ConferenceData } from '../../providers/conference-data';
 
 import { Platform } from 'ionic-angular';
 
+import {AngularFire, FirebaseListObservable} from 'angularfire2';
+
 
 declare var google: any;
 
@@ -12,13 +14,15 @@ declare var google: any;
   templateUrl: 'map.html'
 })
 export class MapPage {
+  map: FirebaseListObservable<any>;
 
   @ViewChild('mapCanvas') mapElement: ElementRef;
-  constructor(public confData: ConferenceData, public platform: Platform) {
+  constructor(public confData: ConferenceData, public platform: Platform, af: AngularFire) {
+    this.map = af.database.list('/map');
   }
 
   ionViewDidLoad() {
-      this.confData.getMap().subscribe(mapData => {
+      this.map.subscribe(mapData => {
         let mapEle = this.mapElement.nativeElement;
 
         let map = new google.maps.Map(mapEle, {
@@ -51,4 +55,10 @@ export class MapPage {
       });
 
   }
+
+  //  getMap() {
+  //   return this.load().map(data => {
+  //     return data.map;
+  //   });
+  // }
 }

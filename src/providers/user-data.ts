@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class UserData {
 
   constructor(
     public events: Events,
-    public storage: Storage
+    public storage: Storage,
   ) {}
 
   hasFavorite(sessionName) {
@@ -34,7 +34,6 @@ export class UserData {
 
   getUsername() {
     var user = firebase.auth().currentUser;
-    console.log(user)
     return user;
   };
 

@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 
 import { AlertController, ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
-import { InAppBrowser } from 'ionic-native';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { ProjectDetailPage } from '../project-detail/project-detail';
 import { UserData } from '../../providers/user-data';
 
+import {AngularFire, FirebaseListObservable} from 'angularfire2';
 
 @Component({
   selector: 'page-project-list',
@@ -19,8 +20,8 @@ export class ProjectListPage {
   queryText = '';
   segment = 'all';
   excludeTracks = [];
-  projects = [];
-  shownProjects: any [];
+  shownProjects: any;
+  projects: FirebaseListObservable<any>;
 
   constructor(
     public alertCtrl: AlertController,
@@ -28,18 +29,26 @@ export class ProjectListPage {
     public navCtrl: NavController,
     public confData: ConferenceData,
     public config: Config,
-    public user: UserData
-    ) {}
+    public user: UserData,
+    public inAppBrowser: InAppBrowser,
+    af: AngularFire
+    ) {
+     this.projects = af.database.list('/projects'); 
+    }
 
   ionViewDidLoad() {
-    this.updateProject();
+    // this.updateProject();
+    // this.projects;
+    // this.confData.getProjects();
+
   }
 
   updateProject() {
-    this.confData.getProjectLine(this.queryText, this.segment).subscribe(projects => {
-      this.shownProjects = projects.shownProjects;
-      this.projects = projects;
-    });
+    // this.confData.getProjectLine(this.queryText, this.segment).subscribe(projects => {
+    //   // console.log(projects);
+    //   this.shownProjects = projects.shownProjects;
+    //   this.projects = projects;
+    // });
   }
 
   goToSessionDetail(session) {
@@ -51,7 +60,7 @@ export class ProjectListPage {
   }
 
   goToSpeakerTwitter(speaker) {
-    new InAppBrowser(`https://twitter.com/${speaker.twitter}`, '_blank');
+    this.inAppBrowser.create(`https://twitter.com/${speaker.twitter}`, '_blank');
   }
 
   openSpeakerShare(speaker) {
