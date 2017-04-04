@@ -19,7 +19,7 @@ import { ProjectListPage } from '../pages/project-list/project-list';
 import { MapPage } from '../pages/map/map'
 import { AboutPage } from '../pages/about/about';
 
-import { ConferenceData } from '../providers/conference-data';
+import { ProjectData } from '../providers/project-data';
 import { UserData } from '../providers/user-data';
 import { AuthData } from '../providers/auth-data';
 
@@ -77,7 +77,7 @@ export class ConferenceApp {
     public authData: AuthData,
     public menu: MenuController,
     public platform: Platform,
-    public confData: ConferenceData,
+    public projectData: ProjectData,
     public storage: Storage,
     public splashScreen: SplashScreen,
     public af: AngularFire

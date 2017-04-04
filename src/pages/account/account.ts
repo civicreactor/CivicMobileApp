@@ -6,24 +6,29 @@ import { ResetPasswordPage } from '../reset-password/reset-password';
 import { SupportPage } from '../support/support';
 import { UserData } from '../../providers/user-data';
 import { AuthData } from '../../providers/auth-data';
+import { ProfileData } from '../../providers/profile-data'
 import { TabsPage } from '../tabs/tabs';
 
 import { AngularFire } from 'angularfire2';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 
 @Component({
   selector: 'page-account',
   templateUrl: 'account.html'
 })
 export class AccountPage {
-  user: firebase.User;
+  public userProfile: any;
+  public birthDate: string;
 
   constructor(public alertCtrl: AlertController, public nav: NavController, public authData: AuthData, 
-              public userData: UserData, public af: AngularFire) {
-  }
+              public userData: UserData, public profileData: ProfileData, public af: AngularFire) {}
 
-  ngAfterViewInit() {
-    this.getUsername();
+  ionViewDidEnter() {
+    this.profileData.getUserProfile().on('value', (data) => {
+      this.userProfile = data.val();
+      this.birthDate = this.userProfile.birthDate;
+
+    });
   }
 
   updatePicture() {
@@ -56,13 +61,10 @@ export class AccountPage {
     alert.present();
   }
 
-  getUsername() {
-    this.user = this.userData.getUsername();
-  }
-
-  goToResetPassword(): void {
+  goToResetPassword() {
     this.nav.push(ResetPasswordPage);
   }
+
 
   logoutUser() {
     this.af.auth.logout();
@@ -72,4 +74,96 @@ export class AccountPage {
   support() {
     this.nav.push(SupportPage);
   }
+
+  updateName() {
+    let alert = this.alertCtrl.create({
+      message: "Your first name and last name",
+      inputs: [
+        {
+          name: 'firstName',
+          placeholder: 'Your first name',
+          value: this.userProfile.firstName
+        },
+        {
+          name: 'lastName',
+          placeholder: 'Your last name',
+          value: this.userProfile.lastName
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.profileData.updateName(data.firstName, data.lastName);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  updateDOB(birthDate) {
+    this.profileData.updateDOB(birthDate);
+  }
+
+  updateEmail() {
+    let alert = this.alertCtrl.create({
+      inputs: [
+        {
+          name: 'newEmail',
+          placeholder: 'Your new email',
+        },
+        {
+          name: 'password',
+          placeholder: 'Your password',
+          type: 'password'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.profileData.updateEmail(data.newEmail, data.password);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  updatePassword() {
+    let alert = this.alertCtrl.create({
+      inputs: [
+        {
+          name: 'newPassword',
+          placeholder: 'Your new password',
+          type: 'password'
+        },
+        {
+          name: 'oldPassword',
+          placeholder: 'Your old password',
+          type: 'password'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.profileData.updatePasword(data.newPassword, data.oldPassword);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
 }

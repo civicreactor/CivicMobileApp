@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 
-import { ConferenceData } from '../../providers/conference-data';
+import { ProjectData } from '../../providers/project-data';
 
 import { Platform } from 'ionic-angular';
 
@@ -17,7 +17,7 @@ export class MapPage {
   map: FirebaseListObservable<any>;
 
   @ViewChild('mapCanvas') mapElement: ElementRef;
-  constructor(public confData: ConferenceData, public platform: Platform, af: AngularFire) {
+  constructor(public projectData: ProjectData, public platform: Platform, af: AngularFire) {
     this.map = af.database.list('/map');
   }
 

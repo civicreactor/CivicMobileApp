@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-import { ConferenceData } from '../../providers/conference-data';
+import { ProjectData } from '../../providers/project-data';
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { SpeakerDetailPage } from '../speaker-detail/speaker-detail';
 import { UserData } from '../../providers/user-data';
@@ -19,7 +19,7 @@ export class ReactorListPage {
   actionSheet: ActionSheet;
   reactors: FirebaseListObservable<any>;
 
-  constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public confData: ConferenceData, public config: Config, 
+  constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public projectData: ProjectData, public config: Config, 
               public inAppBrowser: InAppBrowser, public user: UserData, af: AngularFire) {
                 this.reactors = af.database.list('/reactors');
                 // this.reactors.subscribe(snapshots => {

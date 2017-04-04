@@ -30,11 +30,14 @@ import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
 
 import { AuthData } from '../providers/auth-data';
-import { ConferenceData } from '../providers/conference-data';
+import { ProjectData } from '../providers/project-data';
 import { UserData } from '../providers/user-data';
+import { ProfileData } from '../providers/profile-data';
+import { FavoriteData } from '../providers/favorite-data';
 
 export const firebaseConfig = {
-      apiKey: API_FIREBASE_KEY.API_FIREBASE_KEY,
+      // apiKey: API_FIREBASE_KEY.API_FIREBASE_KEY,
+      apiKey: 'AIzaSyCmNbpAGT-QjhV0dD01CTR_hbiRkQNtErQ',
       authDomain: "civic-mobile-app-46e73.firebaseapp.com",
       databaseURL: "https://civic-mobile-app-46e73.firebaseio.com",
       storageBucket: "civic-mobile-app-46e73.appspot.com",
@@ -94,7 +97,7 @@ export const myFirebaseAuthConfig = {
     TutorialPage,
     SupportPage
   ],
-  providers: [AuthData, ConferenceData, {provide: ErrorHandler, useClass: IonicErrorHandler}, UserData, InAppBrowser,
-    SplashScreen]
+  providers: [AuthData, ProjectData, {provide: ErrorHandler, useClass: IonicErrorHandler}, UserData, InAppBrowser,
+              ProfileData, SplashScreen, FavoriteData]
 })
 export class AppModule { }

@@ -39608,9 +39608,51 @@ ion-navbar.toolbar {
   margin-right: 10px;
 }
 
-page-account img {
-  max-width: 140px;
-  border-radius: 50%;
+page-profile ion-item ion-label {
+  margin: 0 !important;
+}
+
+page-profile ion-list {
+  margin: 0;
+  padding: 0;
+}
+
+page-profile ion-list-header {
+  background-color: #ECECEC;
+  margin: 0;
+  padding: 10px 16px;
+}
+
+page-profile ion-item {
+  padding: 0;
+}
+
+page-profile ion-datetime {
+  padding-left: 3px !important;
+}
+
+page-profile .item-inner {
+  border: none !important;
+  padding: 0;
+}
+
+page-profile .popover-content {
+  min-height: 0 !important;
+  max-height: 88px !important;
+}
+
+page-profile .profile-popover {
+  margin-top: -1px !important;
+}
+
+page-profile .placeholder-profile {
+  color: #CCCCCC;
+}
+
+page-profile .dob-label {
+  color: #000000 !important;
+  padding: 10px !important;
+  max-width: 50% !important;
 }
 
 page-login form {
