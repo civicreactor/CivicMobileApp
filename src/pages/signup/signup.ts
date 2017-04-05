@@ -34,7 +34,7 @@ export class SignupPage {
         });
       }, (error) => {
         this.loading.dismiss().then( () => {
-          let alert = this.alertCtrl.create({
+          this.alertCtrl.create({
             message: error.message,
             buttons: [{
               text: 'Ok',

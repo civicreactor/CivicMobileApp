@@ -8,18 +8,18 @@
 </ion-header>
 
 <ion-content class="outer-content reactor-list">
-  <ion-card *ngFor="let speaker of speakers" class="speaker-card">
+  <ion-card *ngFor="let reactor of reactors | async" class="speaker-card">
 
     <ion-card-header>
-      <button ion-item detail-none (click)="goToSpeakerDetail(speaker)">
+      <button ion-item detail-none (click)="goToSpeakerDetail(reactor)">
         <ion-avatar item-left>
-          <img [src]="speaker.profilePic" alt="Speaker profile pic">
+          <img [src]="reactor.profilePic" alt="Reactor profile pic">
         </ion-avatar>
-        {{speaker.name}}
+        {{reactor.name}}
       </button>
     </ion-card-header>
 
-    <ion-card-content class="outer-content">
+    <!--<ion-card-content class="outer-content">
       <ion-list>
         <button ion-item *ngFor="let session of speaker.sessions" (click)="goToSessionDetail(session)">
           <h3>{{session.name}}</h3>
@@ -29,23 +29,23 @@
           <h3>About {{speaker.name}}</h3>
         </button>
       </ion-list>
-    </ion-card-content>
+    </ion-card-content>-->
 
     <ion-row no-padding>
       <ion-col>
-        <button ion-button clear small color="primary" icon-left (click)="goToSpeakerTwitter(speaker)">
+        <button ion-button clear small color="primary" icon-left (click)="goToSpeakerTwitter(reactor)">
           <ion-icon name="logo-twitter"></ion-icon>
           Tweet
         </button>
       </ion-col>
       <ion-col text-center>
-        <button ion-button clear small color="primary" icon-left (click)="openSpeakerShare(speaker)">
+        <button ion-button clear small color="primary" icon-left (click)="openSpeakerShare(reactor)">
           <ion-icon name='share-alt'></ion-icon>
          Share
         </button>
       </ion-col>
       <ion-col text-right>
-        <button ion-button clear small color="primary" icon-left (click)="openContact(speaker)">
+        <button ion-button clear small color="primary" icon-left (click)="openContact(reactor)">
           <ion-icon name='chatboxes'></ion-icon>
           Contact
         </button>

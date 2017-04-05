@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 
 import { AlertController, ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
-import { InAppBrowser } from 'ionic-native';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-import { ConferenceData } from '../../providers/conference-data';
+import { ProjectData } from '../../providers/project-data';
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { ProjectDetailPage } from '../project-detail/project-detail';
 import { UserData } from '../../providers/user-data';
+import { FavoriteData } from '../../providers/favorite-data';
+import { AuthData } from '../../providers/auth-data';
 
+import {AngularFire, FirebaseListObservable} from 'angularfire2';
+import firebase from 'firebase';
 
 @Component({
   selector: 'page-project-list',
@@ -19,27 +23,55 @@ export class ProjectListPage {
   queryText = '';
   segment = 'all';
   excludeTracks = [];
-  projects = [];
-  shownProjects: any [];
+  shownProjects: any;
+  projects: FirebaseListObservable<any>;
+  public currentUser: string;
+  public favoritesList: firebase.database.Reference;
+  public hide: boolean;
+  public favs: any;
 
   constructor(
     public alertCtrl: AlertController,
     public actionSheetCtrl: ActionSheetController,
     public navCtrl: NavController,
-    public confData: ConferenceData,
+    public projectData: ProjectData,
     public config: Config,
-    public user: UserData
-    ) {}
+    public user: UserData,
+    public inAppBrowser: InAppBrowser,
+    public favoriteData: FavoriteData,
+    public authData: AuthData,
+    public af: AngularFire
+    ) {
+      this.projects = af.database.list('/projects'); 
+    }
 
-  ionViewDidLoad() {
-    this.updateProject();
+  updateProject(segment) {
+    console.log(segment)
+    if (segment === 'all') {
+      console.log(segment)
+      this.projects = this.af.database.list('/projects');
+    }
+    if (segment === 'favorites') {
+      console.log(segment)
+      this.projects = this.af.database.list('projects', {
+      query: {
+        orderByChild: 'isFavorite',
+        equalTo: true
+      }
+    });
+    }
   }
 
-  updateProject() {
-    this.confData.getProjectLine(this.queryText, this.segment).subscribe(projects => {
-      this.shownProjects = projects.shownProjects;
-      this.projects = projects;
+  createFavorite(projectData) {
+    this.favoriteData.createFavorite(projectData.name);
+    this.projects.update(projectData.$key, {isFavorite: true});
+    let alert = this.alertCtrl.create({
+      title: 'Favorite Added',
+      buttons: [{
+        text: 'OK'
+      }]
     });
+    alert.present();
   }
 
   goToSessionDetail(session) {
@@ -51,7 +83,7 @@ export class ProjectListPage {
   }
 
   goToSpeakerTwitter(speaker) {
-    new InAppBrowser(`https://twitter.com/${speaker.twitter}`, '_blank');
+    this.inAppBrowser.create(`https://twitter.com/${speaker.twitter}`, '_blank');
   }
 
   openSpeakerShare(speaker) {
@@ -106,51 +138,5 @@ export class ProjectListPage {
     actionSheet.present();
   }
 
-  addFavorite(card, projectData) {
-    if (this.user.hasFavorite(projectData.name)) {
-      // woops, they already favorited it! What shall we do!?
-      // prompt them to remove it
-      this.removeFavorite(card, projectData, 'Favorite already added');
-    } else {
-      // remember this session as a user favorite
-      this.user.addFavorite(projectData.name);
-
-      // create an alert instance
-      let alert = this.alertCtrl.create({
-        title: 'Favorite Added',
-        buttons: [{
-          text: 'OK'
-        }]
-      });
-      // now present the alert on top of all other content
-      alert.present();
-    }
-
-  }
-
-  removeFavorite(card, projectData, title) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      message: 'Would you like to remove this session from your favorites?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-            // they clicked the cancel button, do not remove the session
-          }
-        },
-        {
-          text: 'Remove',
-          handler: () => {
-            // they want to remove this session from their favorites
-            this.user.removeFavorite(projectData.name);
-            this.updateProject();
-          }
-        }
-      ]
-    });
-    // now present the alert on top of all other content
-    alert.present();
-  }
 }
 

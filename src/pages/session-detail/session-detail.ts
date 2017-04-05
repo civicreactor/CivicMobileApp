@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavParams, ViewController, NavController } from 'ionic-angular';
+import { NavParams, NavController } from 'ionic-angular';
 import { SpeakerDetailPage } from '../speaker-detail/speaker-detail';
 
 @Component({

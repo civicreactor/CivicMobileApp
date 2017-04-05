@@ -264,7 +264,7 @@
   }],
 
 
-  "speakers": [{
+  "reactors": [{
     "name": "Colin Moore-Hill",
     "profilePic": "assets/img/speakers/colin.jpg",
     "twitter": "ionicframework",

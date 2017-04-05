@@ -1,10 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 
-import { IonicApp, IonicModule } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+// import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { ConferenceApp } from './app.component';
 
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { API_FIREBASE_KEY } from './mock-api';
 import { AboutPage } from '../pages/about/about';
 import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
@@ -24,8 +30,24 @@ import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
 
 import { AuthData } from '../providers/auth-data';
-import { ConferenceData } from '../providers/conference-data';
+import { ProjectData } from '../providers/project-data';
 import { UserData } from '../providers/user-data';
+import { ProfileData } from '../providers/profile-data';
+import { FavoriteData } from '../providers/favorite-data';
+
+export const firebaseConfig = {
+      // apiKey: API_FIREBASE_KEY.API_FIREBASE_KEY,
+      apiKey: 'AIzaSyCmNbpAGT-QjhV0dD01CTR_hbiRkQNtErQ',
+      authDomain: "civic-mobile-app-46e73.firebaseapp.com",
+      databaseURL: "https://civic-mobile-app-46e73.firebaseio.com",
+      storageBucket: "civic-mobile-app-46e73.appspot.com",
+      messagingSenderId: "839668242779"
+    };
+
+export const myFirebaseAuthConfig = {
+  provider: AuthProviders.Password,
+  method: AuthMethods.Password
+}
 
 @NgModule({
   declarations: [
@@ -49,7 +71,10 @@ import { UserData } from '../providers/user-data';
     SupportPage
   ],
   imports: [
-    IonicModule.forRoot(ConferenceApp)
+    IonicModule.forRoot(ConferenceApp),
+    BrowserModule,
+    AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -72,6 +97,7 @@ import { UserData } from '../providers/user-data';
     TutorialPage,
     SupportPage
   ],
-  providers: [AuthData, ConferenceData, UserData, Storage]
+  providers: [AuthData, ProjectData, {provide: ErrorHandler, useClass: IonicErrorHandler}, UserData, InAppBrowser,
+              ProfileData, SplashScreen, FavoriteData]
 })
 export class AppModule { }

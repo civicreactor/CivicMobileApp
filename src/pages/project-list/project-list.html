@@ -4,8 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateProject()">
-    <!--<ion-segment [(ngModel)]="segment">-->
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateProject(segment)">
       <ion-segment-button value="all">
         All - Projects
       </ion-segment-button>
@@ -31,8 +30,7 @@
 </ion-header>
 
 <ion-content class="outer-content project-list">
-  <ion-list [hidden]="shownProjects === 0"> 
-  <ion-card #cardProject *ngFor="let project of projects" class="speaker-card" [hidden]="project.hide">
+  <ion-card #cardProject *ngFor="let project of projects | async" class="speaker-card">
     <ion-card-header>
       <button ion-item detail-none (click)="goToProjectDetail(project)">
         <ion-thumbnail item-left>
@@ -58,7 +56,7 @@
 
     <ion-row no-padding>
       <ion-col text-left>
-        <button ion-button clear small color="primary" icon-left (click)="addFavorite(cardProject, project)" *ngIf="segment === 'all'">
+        <button ion-button clear small color="primary" icon-left (click)="createFavorite(project)" *ngIf="segment === 'all'">
           <ion-icon name='star'></ion-icon>
           Favorite
         </button>
@@ -82,23 +80,13 @@
     </ion-row>
 
   </ion-card>
-  </ion-list>
-  <ion-list-header [hidden]="shownProjects > 0">
-    No Sessions Found
-  </ion-list-header>
+  <!--</ion-list>-->
+  <!--<ion-list-header [hidden]="shownProjects > 0">-->
+  <!--<ion-list-header [hidden]= {{ (projects | async)?.length > 0 }}>
+    <p>{{(projects|async)?.length}}</p>
+    <p>No Projects Found</p>
+  </ion-list-header>-->
 
 </ion-content>
 
-
-
-
-
-<!--<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Projects</ion-title>
-  </ion-navbar>
-</ion-header>-->
 
