@@ -36,8 +36,7 @@ import { ProfileData } from '../providers/profile-data';
 import { FavoriteData } from '../providers/favorite-data';
 
 export const firebaseConfig = {
-      // apiKey: API_FIREBASE_KEY.API_FIREBASE_KEY,
-      apiKey: 'AIzaSyCmNbpAGT-QjhV0dD01CTR_hbiRkQNtErQ',
+      apiKey: API_FIREBASE_KEY.API_FIREBASE_KEY,
       authDomain: "civic-mobile-app-46e73.firebaseapp.com",
       databaseURL: "https://civic-mobile-app-46e73.firebaseio.com",
       storageBucket: "civic-mobile-app-46e73.appspot.com",
